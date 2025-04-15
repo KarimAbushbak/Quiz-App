@@ -5,6 +5,7 @@ import 'package:quizie/features/quiz/views/home_view.dart';
 import 'package:quizie/features/quiz/views/question_view.dart';
 import 'package:quizie/features/quiz/views/result_page.dart';
 
+import '../features/quiz/bloc/progress_bloc.dart';
 import '../features/quiz/bloc/quiz_bloc.dart';
 import '../features/quiz/bloc/quiz_event.dart';
 import '../features/quiz/data/quiz_repository.dart';
@@ -46,11 +47,15 @@ class RouteGenerator {
       case Routes.questionPage:
         final category = settings.arguments as String;
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (_) => QuizBloc(QuizRepository())..add(LoadQuestionsByCategory(category)),
+          builder: (context) => BlocProvider(
+            create: (_) => QuizBloc(
+              QuizRepository(),
+              context.read<ProgressBloc>(),
+            )..add(LoadQuestionsByCategory(category)),
             child: QuestionPage(category: category),
           ),
         );
+
 
       case Routes.resultPage:
         final correctCount = settings.arguments as int;

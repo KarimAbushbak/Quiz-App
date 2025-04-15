@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/constants.dart';
 import 'core/routes.dart';
 import 'core/storage/local/database/shared_preferences/app_settings_shared_preferences.dart';
+import 'features/quiz/bloc/progress_bloc.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +19,17 @@ Future main() async {
     throw Exception("Supabase initialization timed out");
   });
 
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<ProgressBloc>(
+          create: (_) => ProgressBloc(),
+        ),
+        // Other BLoCs if needed...
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

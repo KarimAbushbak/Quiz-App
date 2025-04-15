@@ -8,26 +8,26 @@ import '../bloc/quiz_state.dart';
 
 class QuestionPage extends StatelessWidget {
   final String category;
+
   const QuestionPage({super.key, required this.category});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title:Column(
+        title: Column(
           children: [
-            Text(category,style: TextStyle(
-              fontSize: 14
-            ),),
+            Text(
+              category,
+              style: TextStyle(fontSize: 14),
+            ),
             Text(
               "30 Questions",
-              style: TextStyle(
-                fontSize:10
-              ),
+              style: TextStyle(fontSize: 10),
             )
           ],
         ),
-
       ),
       body: BlocBuilder<QuizBloc, QuizState>(
         builder: (context, state) {
@@ -48,7 +48,6 @@ class QuestionPage extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 Container(
                   margin: const EdgeInsets.all(16),
                   padding: const EdgeInsets.all(16),
@@ -67,7 +66,8 @@ class QuestionPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(question.questions, style: const TextStyle(fontSize: 20)),
+                      Text(question.questions,
+                          style: const TextStyle(fontSize: 20)),
                       const SizedBox(height: 20),
                       ...question.options.asMap().entries.map((entry) {
                         final index = entry.key;
@@ -90,8 +90,10 @@ class QuestionPage extends StatelessWidget {
                           onTap: state.answered
                               ? null
                               : () {
-                            context.read<QuizBloc>().add(AnswerQuestion(index));
-                          },
+                                  context
+                                      .read<QuizBloc>()
+                                      .add(AnswerQuestion(index));
+                                },
                           child: Container(
                             margin: const EdgeInsets.symmetric(vertical: 8),
                             width: double.infinity,
@@ -111,20 +113,18 @@ class QuestionPage extends StatelessWidget {
                               child: Text(
                                 option,
                                 style: TextStyle(
-                                  color: state.answered && isSelected ? Colors.white : Colors.black,
+                                  color: state.answered && isSelected
+                                      ? Colors.white
+                                      : Colors.black,
                                 ),
-
                               ),
                             ),
                           ),
                         );
                       }),
-
                     ],
                   ),
                 ),
-
-
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
@@ -135,15 +135,19 @@ class QuestionPage extends StatelessWidget {
                         height: 34,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:  Color(0xFF0F469A),
+                            backgroundColor: Color(0xFF0F469A),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                           onPressed: state.currentIndex > 0
-                              ? () => context.read<QuizBloc>().add(PreviousQuestion())
+                              ? () => context
+                                  .read<QuizBloc>()
+                                  .add(PreviousQuestion())
                               : null,
-                          child: const Text("Back", style: TextStyle(fontSize: 12,color: Colors.white)),
+                          child: const Text("Back",
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.white)),
                         ),
                       ),
                       const SizedBox(width: 12), // space between buttons
@@ -158,10 +162,12 @@ class QuestionPage extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
-                            if (state.currentIndex < state.questions.length - 1) {
+                            if (state.currentIndex <
+                                state.questions.length - 1) {
                               context.read<QuizBloc>().add(NextQuestion());
                             } else {
-                              final correctCount = (state as QuizLoaded).correctCount;
+                              final correctCount =
+                                  (state as QuizLoaded).correctCount;
 
                               Navigator.pushNamed(
                                 context,
@@ -171,11 +177,13 @@ class QuestionPage extends StatelessWidget {
                             }
                           },
                           child: Text(
-                            state.currentIndex < state.questions.length - 1 ? "Next" : "Finish",
-                            style: const TextStyle(fontSize: 12, color: Colors.white),
+                            state.currentIndex < state.questions.length - 1
+                                ? "Next"
+                                : "Finish",
+                            style: const TextStyle(
+                                fontSize: 12, color: Colors.white),
                           ),
                         ),
-
                       ),
                     ],
                   ),
@@ -188,7 +196,6 @@ class QuestionPage extends StatelessWidget {
           return const SizedBox.shrink();
         },
       ),
-
     );
   }
 }

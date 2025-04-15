@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizie/core/resources/manager_assets.dart';
 import 'package:quizie/core/resources/manager_font_sizes.dart';
 
 import '../../../core/routes.dart';
+import '../../../core/storage/local/database/shared_preferences/app_settings_shared_preferences.dart';
+import '../bloc/progress_bloc.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
@@ -111,12 +114,13 @@ class HomeView extends StatelessWidget {
                 height: 12,
               ),
               InkWell(
-                onTap: (){
+                onTap: () {
                   Navigator.pushNamed(
                     context,
                     Routes.questionPage,
                     arguments: 'C++', //
-                  );                },
+                  );
+                },
                 child: Container(
                   width: double.infinity,
                   height: 58,
@@ -158,28 +162,33 @@ class HomeView extends StatelessWidget {
                       SizedBox(
                         width: 150,
                       ),
-                      SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            CircularProgressIndicator(
-                              value: 26 / 30,
-                              strokeWidth: 4,
-                              color: Colors.red,
-                              backgroundColor: Colors.red.shade100,
-                            ),
-                            Text(
-                              '26/30',
-                              style: TextStyle(
+                      BlocBuilder<ProgressBloc, ProgressState>(
+                        builder: (context, state) {
+                          final answered = state.answeredByCategory['C++'] ?? 0;
+                          final total = 30;
+                          final progress = answered / total;
+
+                          return Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              CircularProgressIndicator(
+                                value: progress,
+                                strokeWidth: 4,
+                                color: Colors.red,
+                                backgroundColor: Colors.red.shade100,
+                              ),
+                              Text(
+                                '$answered/$total',
+                                style: const TextStyle(
                                   fontSize: 8,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      )
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -188,7 +197,7 @@ class HomeView extends StatelessWidget {
                 height: 18,
               ),
               InkWell(
-                onTap: (){
+                onTap: () {
                   Navigator.pushNamed(
                     context,
                     Routes.questionPage,
@@ -236,28 +245,33 @@ class HomeView extends StatelessWidget {
                       SizedBox(
                         width: 150,
                       ),
-                      SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            CircularProgressIndicator(
-                              value: 20 / 30,
-                              strokeWidth: 4,
-                              color: Colors.yellow,
-                              backgroundColor: Colors.yellow.shade100,
+                      BlocBuilder<ProgressBloc, ProgressState>(
+                        builder: (context, state) {
+                          final answered = state.answeredByCategory['HTML'] ?? 0;
+                          final total = 30;
+                          final progress = answered / total;
+
+                          return SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                CircularProgressIndicator(
+                                  value: progress,
+                                  strokeWidth: 4,
+                                  color: Colors.yellow,
+                                  backgroundColor: Colors.yellow.shade100,
+                                ),
+                                Text(
+                                  '$answered/$total',
+                                  style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
-                            Text(
-                              '20/30',
-                              style: TextStyle(
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      )
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -266,7 +280,7 @@ class HomeView extends StatelessWidget {
                 height: 18,
               ),
               InkWell(
-                onTap: (){
+                onTap: () {
                   Navigator.pushNamed(
                     context,
                     Routes.questionPage,
@@ -314,28 +328,33 @@ class HomeView extends StatelessWidget {
                       SizedBox(
                         width: 150,
                       ),
-                      SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            CircularProgressIndicator(
-                              value: 24 / 30,
-                              strokeWidth: 4,
-                              color: Colors.blueAccent,
-                              backgroundColor: Colors.blueAccent.shade100,
+                      BlocBuilder<ProgressBloc, ProgressState>(
+                        builder: (context, state) {
+                          final answered = state.answeredByCategory['JavaScript'] ?? 0;
+                          final total = 30;
+                          final progress = answered / total;
+
+                          return SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                CircularProgressIndicator(
+                                  value: progress,
+                                  strokeWidth: 4,
+                                  color: Colors.blueAccent,
+                                  backgroundColor: Colors.blueAccent.shade100,
+                                ),
+                                Text(
+                                  '$answered/$total',
+                                  style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
-                            Text(
-                              '24/30',
-                              style: TextStyle(
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      )
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -344,7 +363,7 @@ class HomeView extends StatelessWidget {
                 height: 18,
               ),
               InkWell(
-                onTap: (){
+                onTap: () {
                   Navigator.pushNamed(
                     context,
                     Routes.questionPage,
@@ -392,28 +411,33 @@ class HomeView extends StatelessWidget {
                       SizedBox(
                         width: 150,
                       ),
-                      SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            CircularProgressIndicator(
-                              value: 4 / 30,
-                              strokeWidth: 4,
-                              color: Colors.blue,
-                              backgroundColor: Colors.blue.shade100,
+                      BlocBuilder<ProgressBloc, ProgressState>(
+                        builder: (context, state) {
+                          final answered = state.answeredByCategory['React'] ?? 0;
+                          final total = 30;
+                          final progress = answered / total;
+
+                          return SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                CircularProgressIndicator(
+                                  value: progress,
+                                  strokeWidth: 4,
+                                  color: Colors.blue,
+                                  backgroundColor: Colors.blue.shade100,
+                                ),
+                                Text(
+                                  '$answered/$total',
+                                  style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
-                            Text(
-                              '4/30',
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      )
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -422,12 +446,9 @@ class HomeView extends StatelessWidget {
                 height: 18,
               ),
               InkWell(
-                onTap: (){
-                  Navigator.pushNamed(
-                    context,
-                    Routes.questionPage,
-                    arguments: 'CSS'
-                  );
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.questionPage,
+                      arguments: 'CSS');
                 },
                 child: Container(
                   width: double.infinity,
@@ -470,28 +491,33 @@ class HomeView extends StatelessWidget {
                       SizedBox(
                         width: 150,
                       ),
-                      SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            CircularProgressIndicator(
-                              value: 12 / 30,
-                              strokeWidth: 4,
-                              color: Colors.green,
-                              backgroundColor: Colors.green.shade100,
+                      BlocBuilder<ProgressBloc, ProgressState>(
+                        builder: (context, state) {
+                          final answered = state.answeredByCategory['CSS'] ?? 0;
+                          final total = 30;
+                          final progress = answered / total;
+
+                          return SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                CircularProgressIndicator(
+                                  value: progress,
+                                  strokeWidth: 4,
+                                  color: Colors.green,
+                                  backgroundColor: Colors.green.shade100,
+                                ),
+                                Text(
+                                  '$answered/$total',
+                                  style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
-                            Text(
-                              '12/30',
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      )
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -500,7 +526,7 @@ class HomeView extends StatelessWidget {
                 height: 18,
               ),
               InkWell(
-                onTap: (){
+                onTap: () {
                   Navigator.pushNamed(
                     context,
                     Routes.questionPage,
@@ -574,6 +600,28 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 20,),
+              ElevatedButton(
+                onPressed: () async {
+                  final prefs = AppSettingsSharedPreferences();
+                  final categories = ['C++', 'HTML', 'JavaScript', 'React', 'CSS', 'Python'];
+
+                  for (final cat in categories) {
+                    await prefs.resetAll(categories); // custom method to reset to 0
+                    context.read<ProgressBloc>().add(ProgressEvent(cat, 0));
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+                child:  Text(
+                  'Reset Progress',
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
+
             ],
           ),
         ),
