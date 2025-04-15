@@ -40,7 +40,7 @@ class KeyConstants {
   static const String prefKeyLocale = 'locale_key';
   static const String selectedValue = 'selectedValue';
   static const String projectURL = 'https://jdxlbtgfcldhzlaniknw.supabase.co';
-  static const String annonKey = 'heyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkeGxidGdmY2xkaHpsYW5pa253Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ1NDEyNzMsImV4cCI6MjA2MDExNzI3M30.c16KesWl3N4lT8NL6ATjbXwvoUfjvksusMVphVp9NBA';
+  static const String anonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkeGxidGdmY2xkaHpsYW5pa253Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ1NDEyNzMsImV4cCI6MjA2MDExNzI3M30.c16KesWl3N4lT8NL6ATjbXwvoUfjvksusMVphVp9NBA';
 
 }
 

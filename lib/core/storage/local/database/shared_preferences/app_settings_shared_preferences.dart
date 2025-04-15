@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../constants.dart';
 import 'package:quizie/core/extensions/extensions.dart';
+
 class AppSettingsSharedPreferences {
   static final _instance = AppSettingsSharedPreferences._internal();
   late SharedPreferences _sharedPreferences;
@@ -16,61 +17,31 @@ class AppSettingsSharedPreferences {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-
   clear() {
     _sharedPreferences.clear();
   }
 
-  Future<void> saveViewedOutBoarding() async {
-    await _sharedPreferences.setBool(KeyConstants.outBoardingViewedKey, true);
-  }
-
-  bool get outBoardingViewed =>
-      _sharedPreferences.getBool(KeyConstants.outBoardingViewedKey).onNull();
-
-  Future<void> setDefaultLocale(String lang) async {
-    await _sharedPreferences.setString(KeyConstants.localeKey, lang);
-  }
-  Future<void> setUserName(String name) async {
-    await _sharedPreferences.setString(KeyConstants.userName, name);
+  Future<void> incrementAnswered(String category) async {
+    final key = 'answered_$category';
+    int current = _sharedPreferences.getInt(key) ?? 0;
+    if (current < 30) {
+      await _sharedPreferences.setInt(key, current + 1);
+    }
   }
 
 
-  // String get defaultLocale =>
-  //     _sharedPreferences.getString(KeyConstants.localeKey).parseLocale();
-
-  Future<void> setToken(String token) async {
-    await _sharedPreferences.setString(KeyConstants.token, token);
+  Future<int> getAnswered(String category) async {
+    return _sharedPreferences.getInt('answered_$category') ?? 0;
   }
 
-  String get defaultToken =>
-      _sharedPreferences.getString(KeyConstants.token).onNull();
 
-  Future<void> setLoggedIn() async {
-    await _sharedPreferences.setBool(KeyConstants.loggedIn, true);
+  Future<void> resetCategory(String category) async {
+    await _sharedPreferences.setInt('answered_$category', 0);
   }
 
-  bool get LoggedIn =>
-      _sharedPreferences.getBool(KeyConstants.loggedIn).onNull();
-
-
-  String get userName =>
-      _sharedPreferences.getString(KeyConstants.userName).onNull();
-
-  String get userEmail =>
-      _sharedPreferences.getString(KeyConstants.userEmail).onNull();
-
-  String get userId =>
-      _sharedPreferences.getInt(KeyConstants.userId).toString().onNull();
-
-  String get userPhone =>
-      _sharedPreferences.getString(KeyConstants.userPhone).onNull();
-
-  // Save selected gender value (1 for Male, 2 for Female)
-  Future<void> saveSelectedValue(int selectedValue) async {
-    await _sharedPreferences.setInt('selectedGender', selectedValue);
+  Future<void> resetAll(List<String> categories) async {
+    for (var category in categories) {
+      await _sharedPreferences.setInt('answered_$category', 0);
+    }
   }
-
-  // Retrieve the saved gender value, defaulting to 1 (Male) if not set
-  int get selectedValue => _sharedPreferences.getInt('selectedGender').onNull();
 }
